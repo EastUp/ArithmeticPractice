@@ -7,7 +7,7 @@ public class Code_05_RotateMatrix {
 		int tC = 0;
 		int dR = matrix.length - 1;
 		int dC = matrix[0].length - 1;
-		while (tR < dR) {
+		while (tR < dR) {  // 所有的外边框旋转
 			rotateEdge(matrix, tR++, tC++, dR--, dC--);
 		}
 	}

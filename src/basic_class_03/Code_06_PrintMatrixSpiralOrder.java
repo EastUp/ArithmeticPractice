@@ -12,6 +12,14 @@ public class Code_06_PrintMatrixSpiralOrder {
 		}
 	}
 
+	/**
+	 *
+	 * @param m  二位数组
+	 * @param tR 左上角的行
+	 * @param tC 左上角的列
+	 * @param dR 右下角的行
+	 * @param dC 右下角的列
+	 */
 	public static void printEdge(int[][] m, int tR, int tC, int dR, int dC) {
 		if (tR == dR) {
 			for (int i = tC; i <= dC; i++) {
