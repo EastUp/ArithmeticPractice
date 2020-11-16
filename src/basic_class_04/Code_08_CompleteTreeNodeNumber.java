@@ -19,14 +19,14 @@ public class Code_08_CompleteTreeNodeNumber {
 		return bs(head, 1, mostLeftLevel(head, 1));
 	}
 
-	public static int bs(Node node, int l, int h) {
-		if (l == h) {
+	public static int bs(Node node, int level, int height) {
+		if (level == height) {
 			return 1;
 		}
-		if (mostLeftLevel(node.right, l + 1) == h) {
-			return (1 << (h - l)) + bs(node.right, l + 1, h);
+		if (mostLeftLevel(node.right, level + 1) == height) {
+			return (1 << (height - level)) + bs(node.right, level + 1, height);
 		} else {
-			return (1 << (h - l - 1)) + bs(node.left, l + 1, h);
+			return (1 << (height - level - 1)) + bs(node.left, level + 1, height);
 		}
 	}
 
