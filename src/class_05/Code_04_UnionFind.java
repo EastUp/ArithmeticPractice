@@ -10,8 +10,8 @@ public class Code_04_UnionFind {
 	}
 
 	public static class UnionFindSet {
-		public HashMap<Node, Node> fatherMap;
-		public HashMap<Node, Integer> sizeMap;
+		public HashMap<Node, Node> fatherMap; // key ：child， value : father
+		public HashMap<Node, Integer> sizeMap; // 某一个节点所在的集合有多少个节点
 
 		public UnionFindSet() {
 			fatherMap = new HashMap<Node, Node>();
@@ -22,7 +22,7 @@ public class Code_04_UnionFind {
 			fatherMap.clear();
 			sizeMap.clear();
 			for (Node node : nodes) {
-				fatherMap.put(node, node);
+				fatherMap.put(node, node); // 每个节点都是一个集合
 				sizeMap.put(node, 1);
 			}
 		}
