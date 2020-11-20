@@ -5,8 +5,8 @@ import java.util.PriorityQueue;
 
 public class Code_03_IPO {
 	public static class Node {
-		public int p;
-		public int c;
+		public int p; // 收益
+		public int c; // 话费
 
 		public Node(int p, int c) {
 			this.p = p;
@@ -32,6 +32,14 @@ public class Code_03_IPO {
 
 	}
 
+	/**
+	 *
+	 * @param k 做多少个k项目
+	 * @param W 本金
+	 * @param Profits 收益
+	 * @param Capital 花费
+	 * @return
+	 */
 	public static int findMaximizedCapital(int k, int W, int[] Profits, int[] Capital) {
 		Node[] nodes = new Node[Profits.length];
 		for (int i = 0; i < Profits.length; i++) {
