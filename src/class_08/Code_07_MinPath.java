@@ -1,5 +1,7 @@
 package class_08;
 
+import java.util.HashMap;
+
 public class Code_07_MinPath {
 
 	public static int minPath1(int[][] matrix) {
@@ -71,6 +73,53 @@ public class Code_07_MinPath {
 		return matrix[i][j]+Math.min(rightPath,downPath);
 	}
 
+	static HashMap<String,Integer> cache = new HashMap<>();
+
+	public static int walk2(int[][] matrix,int i,int j){
+		int result = 0;
+		if(i == matrix.length-1 && j == matrix[0].length-1){
+			result =  matrix[i][j];
+		}else if(i == matrix.length - 1){
+			int next = 0;
+			String nextKey = String.valueOf(i)+"_"+String.valueOf(j+1);
+			if(cache.containsKey(nextKey)){
+				next = cache.get(nextKey);
+			}else{
+				next = walk2(matrix,i,j+1);
+			}
+			result = matrix[i][j]+next;
+		}else if(j == matrix[0].length - 1){
+			int next = 0;
+			String nextKey = String.valueOf(i+1)+"_"+String.valueOf(j);
+			if(cache.containsKey(nextKey)){
+				next = cache.get(nextKey);
+			}else{
+				next = walk2(matrix,i+1,j);
+			}
+			result = matrix[i][j] + next;
+		}else{
+			int rightNext = 0;
+			String rightNextKey = String.valueOf(i)+"_"+String.valueOf(j+1);
+			if(cache.containsKey(rightNextKey)){
+				rightNext = cache.get(rightNextKey);
+			}else{
+				rightNext = walk2(matrix,i,j+1);
+			}
+
+			int downNext = 0;
+			String downNextKey = String.valueOf(i+1)+"_"+String.valueOf(j);
+			if(cache.containsKey(downNextKey)){
+				downNext = cache.get(downNextKey);
+			}else{
+				downNext = walk2(matrix,i+1,j);// 下边位置到右下角的最短距离
+			}
+			result = matrix[i][j]+Math.min(rightNext,downNext);
+		}
+		String key = String.valueOf(i)+"_"+String.valueOf(j);
+		cache.put(key,result);
+		return result;
+	}
+
 	public static void main(String[] args) {
 		int[][] m = { { 1, 3, 5, 9 }, { 8, 1, 3, 4 }, { 5, 0, 6, 1 }, { 8, 8, 4, 0 } };
 		System.out.println(minPath1(m));
@@ -80,5 +129,6 @@ public class Code_07_MinPath {
 		System.out.println(minPath1(m));
 		System.out.println(minPath2(m));
 		System.out.println(walk(m,0,0)+"");
+		System.out.println(walk2(m,0,0)+"");
 	}
 }
