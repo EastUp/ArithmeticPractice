@@ -56,6 +56,21 @@ public class Code_07_MinPath {
 		return result;
 	}
 
+	public static int walk(int[][] matrix,int i,int j){
+		if(i == matrix.length-1 && j == matrix[0].length-1){
+			return matrix[i][j];
+		}
+		if(i == matrix.length - 1){
+			return matrix[i][j]+walk(matrix,i,j+1);
+		}
+		if(j == matrix[0].length - 1){
+			return matrix[i][j] + walk(matrix,i+1,j);
+		}
+		int rightPath = walk(matrix,i,j+1);  // 右边位置到右下角的最短距离
+		int downPath = walk(matrix,i+1,j);   // 下边位置到右下角的最短距离
+		return matrix[i][j]+Math.min(rightPath,downPath);
+	}
+
 	public static void main(String[] args) {
 		int[][] m = { { 1, 3, 5, 9 }, { 8, 1, 3, 4 }, { 5, 0, 6, 1 }, { 8, 8, 4, 0 } };
 		System.out.println(minPath1(m));
@@ -64,5 +79,6 @@ public class Code_07_MinPath {
 		m = generateRandomMatrix(6, 7);
 		System.out.println(minPath1(m));
 		System.out.println(minPath2(m));
+		System.out.println(walk(m,0,0)+"");
 	}
 }

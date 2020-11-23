@@ -34,10 +34,21 @@ public class Code_05_Cow {
 		return res;
 	}
 
+	public static int cow(int n) {
+		if (n < 0) {
+			return 0;
+		}
+		if (n <= 3) {
+			return n;
+		}
+		return cow(n - 1) + cow(n - 3);
+	}
+
 	public static void main(String[] args) {
 		int n = 20;
 		System.out.println(cowNumber1(n));
 		System.out.println(cowNumber2(n));
+		System.out.println(cow(n));
 	}
 
 }

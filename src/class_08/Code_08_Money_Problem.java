@@ -33,6 +33,13 @@ public class Code_08_Money_Problem {
 		return dp[0][0];
 	}
 
+	public static boolean isSum(int[] arr,int i,int sum,int aim){
+		if(i == arr.length){
+			return sum == aim;
+		}
+		return isSum(arr,i+1,sum,aim) || isSum(arr,i+1,sum+arr[i],aim);
+	}
+
 	public static void main(String[] args) {
 		int[] arr = { 1, 4, 8 };
 		int aim = 12;
