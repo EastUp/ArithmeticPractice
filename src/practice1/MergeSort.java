@@ -115,10 +115,33 @@ public class MergeSort {
             }else if(temp[i-l]<temp[j-l]){
                 arr[k] = temp[i-l];
                 i++;
-            }else if(temp[i-l]>temp[j-l]){
+            }else{
                 arr[k] = temp[j-l];
                 j++;
             }
+        }
+    }
+
+    private static void merge1(int[] arr, int l, int mid, int r) {
+        int[] help = new int[r-l+1];
+        int i = 0;
+        int p1 = l;
+        int p2 = mid+1;
+
+        while (p1 <= mid && p2 <=r){
+            help[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
+        }
+
+        while (p1 <= mid){
+            help[i++] = arr[p1++];
+        }
+
+        while (p2 <= r){
+            help[i++] = arr[p2++];
+        }
+
+        for (int j = 0; j < help.length;j++){
+            arr[j+l] = help[j];
         }
 
     }

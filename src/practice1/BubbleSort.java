@@ -91,9 +91,7 @@ public class BubbleSort {
 //                    arr[j] = arr[j+1];
 //                    arr[j+1] = arr[temp];
 
-                    arr[j] = arr[j]^arr[j+1];
-                    arr[j+1] = arr[j]^arr[j+1];
-                    arr[j] = arr[j]^arr[j+1];
+                    swap(arr,j,j+1);
                 }
             }
         }
@@ -107,11 +105,17 @@ public class BubbleSort {
 //                    arr[j] = arr[j+1];
 //                    arr[j+1] = arr[temp];
 
-                    arr[j] = arr[j]^arr[j+1];
-                    arr[j+1] = arr[j]^arr[j+1];
-                    arr[j] = arr[j]^arr[j+1];
+                    swap(arr,j,j+1);
                 }
             }
         }
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        if (i == j)
+            return;
+        arr[i] = arr[i] ^ arr[j];
+        arr[j] = arr[i] ^ arr[j];
+        arr[i] = arr[i] ^ arr[j];
     }
 }

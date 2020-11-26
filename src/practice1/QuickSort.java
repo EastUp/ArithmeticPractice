@@ -2,9 +2,7 @@ package practice1;
 
 import java.util.Arrays;
 
-public class InsertSort {
-
-    // for test
+public class QuickSort {
     public static void comparator(int[] arr) {
         Arrays.sort(arr);
     }
@@ -60,6 +58,7 @@ public class InsertSort {
         System.out.println();
     }
 
+    // for test
     public static void main(String[] args) {
         int testTime = 500000;
         int maxSize = 100;
@@ -68,10 +67,12 @@ public class InsertSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            insertionSort(arr1);
+            quickSort(arr1, 0, arr1.length - 1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
+                printArray(arr1);
+                printArray(arr2);
                 break;
             }
         }
@@ -79,17 +80,77 @@ public class InsertSort {
 
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
-        insertionSort(arr);
+        quickSort(arr, 0, arr.length - 1);
         printArray(arr);
+
     }
 
-    public static void insertionSort(int[] arr){
-        for (int i = 1; i < arr.length; i++){
-            for (int j = i - 1; j >= 0 && arr[j+1]<arr[j]; j--){
-                swap(arr,j,j+1);
+    /**
+     * 普通快排
+     */
+    public static void quickSortNormal(int[] arr, int l, int r) {
+        if (l >= r)
+            return;
+        int p = partitionNormal(arr, l, r);
+        quickSortNormal(arr, l, p - 1);
+        quickSortNormal(arr, p + 1, r);
+    }
+
+    private static int partitionNormal(int[] arr, int l, int r) {
+        swap(arr,l, (int) (Math.random()*(r-l+1))+l);
+        int v = arr[l];
+        int p = l;
+
+        for (int i = l + 1; i <= r; i++) {
+            if (arr[i] < v) {
+                swap(arr, p + 1, i);
+                p++;
             }
         }
+
+        swap(arr, l, p);
+
+        return p;
     }
+
+
+    /**
+     * 精简快排
+     */
+    public static void quickSort(int[] arr, int l, int r) {
+        if (l >= r)
+            return;
+        int[] p = partition(arr, l, r);
+        quickSort(arr, l, p[0] - 1);
+        quickSort(arr, p[1] + 1, r);
+    }
+
+    private static int[] partition(int[] arr, int l, int r) {
+        swap(arr,l, (int) (Math.random()*(r-l+1))+l);
+        int v = arr[l];
+        int p = l;
+        int end = r+1;
+        int index = l+1;
+
+        while (index < end){
+            if (arr[index] < v) {
+                swap(arr, p + 1, index);
+                p++;
+                index++;
+            }else if(arr[index] > v){
+                swap(arr, end - 1, index);
+                end --;
+            }else{
+                index++;
+            }
+        }
+
+        swap(arr, l, p);
+
+        return new int[]{p,end-1};
+    }
+
+
 
     public static void swap(int[] arr, int i, int j) {
         if (i == j)
@@ -98,4 +159,5 @@ public class InsertSort {
         arr[j] = arr[i] ^ arr[j];
         arr[i] = arr[i] ^ arr[j];
     }
+
 }
