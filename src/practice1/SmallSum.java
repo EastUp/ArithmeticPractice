@@ -1,12 +1,19 @@
 package practice1;
 
-import java.util.Arrays;
-
-public class HeapSort {
+public class SmallSum {
 
     // for test
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
+    public static int comparator(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return 0;
+        }
+        int res = 0;
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = 0; j < i; j++) {
+                res += arr[j] < arr[i] ? arr[j] : 0;
+            }
+        }
+        return res;
     }
 
     // for test
@@ -69,60 +76,49 @@ public class HeapSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            heapSort(arr1,0,arr1.length);
-            comparator(arr2);
-            if (!isEqual(arr1, arr2)) {
+            if (smallSum(arr1,0,arr1.length-1) != comparator(arr2)) {
                 succeed = false;
+                printArray(arr1);
+                printArray(arr2);
                 break;
             }
         }
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
-
-        int[] arr = generateRandomArray(maxSize, maxValue);
-        printArray(arr);
-        heapSort(arr,0,arr.length);
-        printArray(arr);
     }
 
-    public static void heapSort(int arr[],int index,int size){
-        // 先调整为大根堆  1
-        /*for (int i=0;i<size;i++){
-            int k = i;
-            while (arr[k] > arr[(k-1)/2]){
-                swap(arr,k,(k-1)/2);
-                k = (k-1)/2;
-            }
-        }*/
-        // 先调整为大根堆  2
-        for(int i = size/2-1;i>=0;i--){
-            heapify(arr,i,size);
+    public static int smallSum(int[] arr, int l, int r){
+        if (arr == null || arr.length < 2) {
+            return 0;
         }
-
-
-        // 将第一个和最后一个进行交换,从上往下调整为大根堆
-        for(int j = size - 1;j>0;j--){
-            swap(arr,0,j);
-            heapify(arr,0,j);
-        }
+        if(l==r)
+            return 0;
+        int mid = (l+r)>>1;
+        return smallSum(arr,l,mid)+ smallSum(arr,mid+1,r)+mergeSort(arr,l,mid,r);
     }
 
-    public static void heapify(int[] arr,int index,int size){
-        int left = index*2+1;
-        while (left < size){
-            int largest = ((left+1) < size && arr[left+1] > arr[left]) ? left+1 :left;
-            largest = arr[largest] > arr[index] ? largest:index;
-            if(largest == index)
-                break;
-            swap(arr,largest,index);
-            index = largest;
-            left = index*2+1;
+    private static int mergeSort(int[] arr, int l, int mid, int r) {
+        int res = 0;
+        int[] help = new int[r-l+1];
+        int index = 0;
+        int p1= l;
+        int p2 = mid+1;
+        while (p1<=mid && p2 <= r){
+            res += arr[p1] < arr[p2] ? (r-p2+1)*arr[p1] : 0;
+            help[index++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
         }
-    }
 
+        while (p1 <= mid){
+            help[index++] = arr[p1++];
+        }
 
-    public static void swap(int[] arr,int i,int j){
-        arr[i] = arr[i]+arr[j];
-        arr[j] = arr[i]-arr[j];
-        arr[i] = arr[i]-arr[j];
+        while (p2 <= r){
+            help[index++] = arr[p2++];
+        }
+
+        for (index=0; index< help.length;index++){
+            arr[l+index] = help[index];
+        }
+
+        return res;
     }
 }
